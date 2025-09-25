@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Directory</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .search-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .search-container input {
+      padding: 10px;
+      width: 300px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .directory {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .employee-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .employee-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .employee-card img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+      object-fit: cover;
+    }
+
+    .employee-card h3 {
+      margin: 8px 0 5px;
+      color: #222;
+    }
+
+    .employee-card p {
+      margin: 2px 0;
+      color: #666;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Employee Directory</h1>
+
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search employee by name...">
+  </div>
+
+  <div class="directory" id="employeeDirectory">
+    <!-- Employee cards will be injected here by JS -->
+  </div>
+
+  <script>
+    const employees = [
+      { name: "Alice Johnson", role: "Software Engineer", department: "IT", photo: "https://randomuser.me/api/portraits/women/44.jpg" },
+      { name: "Bob Smith", role: "Project Manager", department: "Operations", photo: "https://randomuser.me/api/portraits/men/46.jpg" },
+      { name: "Catherine Lee", role: "UX Designer", department: "Design", photo: "https://randomuser.me/api/portraits/women/68.jpg" },
+      { name: "David Brown", role: "Data Analyst", department: "Analytics", photo: "https://randomuser.me/api/portraits/men/34.jpg" },
+      { name: "Eva Green", role: "HR Manager", department: "Human Resources", photo: "https://randomuser.me/api/portraits/women/19.jpg" },
+      { name: "Frank Wilson", role: "DevOps Engineer", department: "IT", photo: "https://randomuser.me/api/portraits/men/55.jpg" }
+    ];
+
+    const directory = document.getElementById("employeeDirectory");
+    const searchInput = document.getElementById("searchInput");
+
+    function renderEmployees(list) {
+      directory.innerHTML = "";
+      list.forEach(emp => {
+        const card = document.createElement("div");
+        card.className = "employee-card";
+        card.innerHTML = `
+          <img src="${emp.photo}" alt="${emp.name}">
+          <h3>${emp.name}</h3>
+          <p><strong>Role:</strong> ${emp.role}</p>
+          <p><strong>Department:</strong> ${emp.department}</p>
+        `;
+        directory.appendChild(card);
+      });
+    }
+
+    // Initial render
+    renderEmployees(employees);
+
+    // Search filter
+    searchInput.addEventListener("input", function() {
+      const query = searchInput.value.toLowerCase();
+      const filtered = employees.filter(emp =>
+        emp.name.toLowerCase().includes(query)
+      );
+      renderEmployees(filtered);
+    });
+  </script>
+</body>
+</html>
